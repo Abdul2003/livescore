@@ -1,0 +1,33 @@
+.ant-table-cell {
+ text-align: center;
+ 
+
+}
+.ant-table-cell div {
+  text-align: center;
+ 
+}
+.ant-table-cell p {
+  text-align: center;
+  font-size: 18px;
+
+}
+.image{
+  height:15vh;
+ 
+}
+@media only screen and (max-width: 553px) {
+  .image {
+    height: 10vh;
+  }
+}
+@media only screen and (max-width: 329px) {
+  .image {
+    height: 7vh;
+  }
+}
+@media only screen and (max-width: 289px) {
+  .image {
+    height: 5vh;
+  }
+}

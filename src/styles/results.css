@@ -1,0 +1,147 @@
+.ant-card-body {
+  text-decoration: none;
+  overflow-x: hidden;
+}
+.cardContent {
+  align-items: center;
+  color: inherit;
+
+  font-size: 17px;
+}
+.ant-card.ant-card-bordered.card:hover {
+  color: inherit;
+
+  box-shadow: 5px 5px 5px #0005;
+  transition: 0.3s;
+}
+.cardContent:hover {
+  color: inherit;
+}
+
+.ant-card.ant-card-bordered.card {
+  margin: 20px;
+  transition: 0.6s;
+  border-radius: 20px;
+  width: 40vw;
+  margin-top: 20px;
+  position: relative;
+  left: 30vw;
+}
+
+.logo {
+  width: 40px;
+  margin-right: 7px;
+}
+
+.team-name {
+  text-align: right;
+  margin-top: 20px;
+  white-space: nowrap;
+}
+
+.scores {
+  position: relative;
+  left: 35vw;
+  bottom: 25px;
+  font-size: 18px;
+}
+
+.away-team {
+  line-height: 7px;
+  position: relative;
+  top: 20px;
+}
+.home-team {
+  line-height: 4px;
+}
+.time {
+  position: relative;
+  left: 34.6vw;
+  bottom: 3.2vh;
+  font-size: 17px;
+}
+.status {
+  position: relative;
+  top: 20px;
+}
+.time-none {
+  padding: 10px;
+}
+.status-none {
+  padding: 10px;
+  position: relative;
+  bottom: 20px;
+  right: 9px;
+}
+@media only screen and (max-width: 886px) {
+  .ant-card.ant-card-bordered.card {
+    width: 45vw;
+    left: 27vw;
+  }
+}
+@media only screen and (max-width: 607px) {
+  .cardContent {
+    font-size: 14px;
+  }
+  .scores {
+    font-size: 14px;
+    bottom: 23px;
+    left: 40.5vw;
+  }
+  .time {
+    font-size: 14px;
+    bottom: 17px;
+    left: 40vw;
+  }
+  .ant-card.ant-card-bordered.card {
+    width: 55vw;
+    left: 20vw;
+  }
+}
+@media only screen and (max-width: 463px) {
+  .ant-card.ant-card-bordered.card {
+    width: 60vw;
+    left: 18.4vw;
+  }
+  .scores {
+    left: 47vw;
+  }
+  .time {
+    left: 46vw;
+  }
+}
+@media only screen and (max-width: 416px) {
+  .ant-card.ant-card-bordered.card {
+    width: 66vw;
+    left: 14.6vw;
+  }
+  .scores {
+    left: 51vw;
+  }
+  .time {
+    left: 50vw;
+  }
+}
+@media only screen and (max-width: 373px) {
+  .ant-card.ant-card-bordered.card {
+    width: 68vw;
+  }
+  .scores {
+    left: 54vw;
+  }
+  .time {
+    left: 53vw;
+  }
+}
+@media only screen and (max-width: 335px) {
+  .ant-card.ant-card-bordered.card {
+    width: 90vw;
+    left: 0vw;
+  }
+  .scores {
+    left: 70vw;
+  }
+  .time {
+    left: 69vw;
+  }
+}

@@ -1,0 +1,5 @@
+@import 'antd/dist/antd.css';
+.Sidenav {
+  padding: 200px;
+  margin: 20px;
+}
