@@ -80,7 +80,7 @@ setToggle(checked===true)
             return item.fixture.status.long === "Match Postponed"
           }):<></>}
      
-        {/* <HomeLayout />
+         <HomeLayout />
      
         
    
@@ -136,7 +136,7 @@ setToggle(checked===true)
           )}
         />
         ,
-        <Footer /> */}
+        <Footer /> 
       </>
     )
   }
