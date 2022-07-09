@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { List, Avatar } from 'antd'
 import '../../styles/scorers.css'
-import HomeLayout from './components/header'
+import HomeLayout from '../components/header'
 
 function Scorers() {
+  const { scorers } = useParams<{ scorers: string }>()
   const [error, setError] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
-  const [fixtures, setFixtures] = React.useState({} as any)
+  const [players, setPlayers] = React.useState({} as any)
 
   useEffect(() => {
     const options = {
@@ -18,7 +20,7 @@ function Scorers() {
     }
 
     fetch(
-      'https://api-football-v1.p.rapidapi.com/v3/players/topscorers?league=39&season=2021',
+      `https://api-football-v1.p.rapidapi.com/v3/players/topscorers?league=${scorers}&season=2021`,
       options
     )
       .then((response) => response.json())
@@ -27,7 +29,7 @@ function Scorers() {
         (data) => {
           setIsLoaded(true)
 
-          setFixtures(data.response)
+          setPlayers(data.response)
         },
         (error) => {
           setIsLoaded(true)
@@ -41,34 +43,34 @@ function Scorers() {
   } else if (!isLoaded) {
     return (
       <div>
-        <HomeLayout />
+        <HomeLayout leagueId={scorers} />
         Loading...
       </div>
     )
   }
 
-  console.log(fixtures)
+  console.log(players)
 
   const data = []
-  for (let i = 0; i < fixtures.length; i++) {
+  for (let i = 0; i < players.length; i++) {
     data.push({
-      title: `${fixtures[i].player.firstname} ${fixtures[i].player.lastname}`,
+      title: `${players[i].player.firstname} ${players[i].player.lastname}`,
       description: (
         <span>
-          {fixtures[i].statistics[0].team.name}
+          {players[i].statistics[0].team.name}
           <span className="goals">
-            {fixtures[i].statistics[0].goals.total} Goals
+            {players[i].statistics[0].goals.total} Goals
           </span>
         </span>
       ),
-      photo: fixtures[i].player.photo,
+      photo: players[i].player.photo,
     })
   }
   console.log(data)
 
   return (
     <>
-      <HomeLayout />
+      <HomeLayout leagueId={scorers} />
       <List
         itemLayout="horizontal"
         dataSource={data}

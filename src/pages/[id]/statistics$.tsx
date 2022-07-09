@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import HomeLayout from './components/header'
+import HomeLayout from '../components/header'
 import { Table, Progress } from 'antd'
 import '../../styles/statistics.css'
 

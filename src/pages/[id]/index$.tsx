@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { List, Card, Switch } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import '../../styles/results.css'
-import HomeLayout from './components/header'
-import Footer from '../../components/footer'
-import { type } from 'os'
+import HomeLayout from '../components/header'
+import Footer from '../components/footer'
 
+function Livescore() {
+  const { id } = useParams<{ id: string }>()
 
-
-function Livescore(checked:boolean) {
   const [error, setError] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
-  const [fixtures, setFixtures] = useState([])
-  const [toggle, setToggle] = useState(checked === false)
-  
+  const [results, setResults] = useState([])
+  const [toggle, setToggle] = useState(false)
 
   useEffect(() => {
     const options = {
@@ -25,7 +23,7 @@ function Livescore(checked:boolean) {
     }
 
     fetch(
-      `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=357&season=2022&last=12`,
+      `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${id}&season=2022&last=12`,
       options
     )
       .then((response) => response.json())
@@ -34,7 +32,7 @@ function Livescore(checked:boolean) {
         (data) => {
           setIsLoaded(true)
 
-          setFixtures(data.response)
+          setResults(data.response)
         },
         (error) => {
           setIsLoaded(true)
@@ -43,56 +41,53 @@ function Livescore(checked:boolean) {
       )
   }, [])
 
-
-  
   if (error) {
     return <div>Error: {error.message}</div>
   } else if (!isLoaded) {
     return (
       <div>
-        {' '}
-        <HomeLayout />
-        Loading...
+        <HomeLayout leagueId={id} /> Loading...
       </div>
     )
   }
   const onChange = (checked: boolean) => {
-setToggle(checked===true)
+    setToggle(checked === true)
   }
-  if (fixtures.length === 0) {
+
+  if (results.length === 0) {
     return (
       <>
-        {' '}
-        <HomeLayout />
+        <HomeLayout leagueId={id} />{' '}
         <h1 className="Null">There are no live matches at the moment</h1>
       </>
     )
   } else {
-    return (
-      <>
-         <Switch 
-            defaultChecked={false}
-            onChange={onChange}
-            checked={toggle}
-           
-          />  
-       {toggle === true ? fixtures.filter(function(item){
-            return item.fixture.status.long === "Match Postponed"
-          }):<></>}
-     
-         <HomeLayout />
-     
-        
-   
-     <List
-          itemLayout="vertical"
-          dataSource={fixtures}
-          renderItem={(item) => (<>
+    const displayedFixtures =
+      toggle === false
+        ? results
+        : results.filter(
+            (item) =>
+              item.fixture.status.long != 'Match Finished' ||
+              'Match Postponed' ||
+              'Not Started'
+          )
 
-           
-             <Card className="card">
+    return (
+      <HomeLayout leagueId={id}>
+        <Switch
+          onChange={onChange}
+          checked={toggle}
+          unCheckedChildren={'Live Matches'}
+          checkedChildren={'All Matches'}
+        />
+        <List itemLayout="vertical" dataSource={results} />
+        {displayedFixtures.length === 0 ? (
+          <h1>No Live Matches</h1>
+        ) : (
+          displayedFixtures.map((item) => (
+            <Card className="card">
               <Link
-                to={`./statistics?fixture=${item.fixture.id}`}
+                to={`/:id/statistics?fixture=${item.fixture.id}`}
                 className="cardContent"
               >
                 <span className="round">{item.league.round}</span>
@@ -104,8 +99,7 @@ setToggle(checked===true)
                   )}
                 </p>
                 <p className="time">
-                  
-                  {item.fixture.status.elapsed === 90 || "null" ? (
+                  {item.fixture.status.elapsed === 90 || 'null' ? (
                     <p className="time-none">
                       {' '}
                       {(item.fixture.status.elapsed = '')}
@@ -130,14 +124,11 @@ setToggle(checked===true)
                 </div>
               </Link>
             </Card>
-            
-            </>
-            
-          )}
-        />
-        ,
-        <Footer /> 
-      </>
+          ))
+        )}
+
+        <Footer />
+      </HomeLayout>
     )
   }
 }

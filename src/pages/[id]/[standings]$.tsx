@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import '../../styles/Standings.css'
-import HomeLayout from './components/header'
+import HomeLayout from '../components/header'
 import { Table } from 'antd'
+import { useParams } from 'react-router-dom'
 
 function Standings() {
+  const { standings } = useParams<{ standings: string }>()
+  console.log(standings)
   const [error, setError] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
-  const [fixtures, setFixtures] = useState([])
+  const [log, setlog] = useState([])
 
   useEffect(() => {
     const options = {
@@ -18,7 +21,7 @@ function Standings() {
     }
 
     fetch(
-      'https://api-football-v1.p.rapidapi.com/v3/standings?season=2021&league=140',
+      `https://api-football-v1.p.rapidapi.com/v3/standings?season=2021&league=${standings}`,
       options
     )
       .then((response) => response.json())
@@ -27,7 +30,7 @@ function Standings() {
         (data) => {
           setIsLoaded(true)
 
-          setFixtures(data.response[0].league.standings[0])
+          setlog(data.response[0].league.standings[0])
         },
         (error) => {
           setIsLoaded(true)
@@ -41,12 +44,12 @@ function Standings() {
   } else if (!isLoaded) {
     return (
       <div>
-        <HomeLayout />
+        <HomeLayout leagueId={standings} />
         Loading...
       </div>
     )
   }
-  console.log(fixtures)
+  console.log(log)
 
   const columns = [
     {
@@ -127,8 +130,8 @@ function Standings() {
     },
   ]
 
-  const data = fixtures.map((fixtures, index) => ({
-    key: { index },
+  const data = log.map((fixtures, index) => ({
+    key: `${fixtures.rank}`,
     position: `${fixtures.rank}`,
     matches: `${fixtures.all.played}`,
     won: `${fixtures.all.win}`,
@@ -157,7 +160,7 @@ function Standings() {
 
   return (
     <>
-      <HomeLayout />
+      <HomeLayout leagueId={standings} />
       <Table
         columns={columns}
         pagination={false}

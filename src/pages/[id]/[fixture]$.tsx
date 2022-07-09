@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { List, Card } from 'antd'
 import '../../styles/fixture.css'
-import HomeLayout from './components/header'
+import HomeLayout from '../components/header'
+import { Link } from 'react-router-dom'
 
 function Fixtures() {
+  const { fixture } = useParams<{ fixture: string }>()
   const [error, setError] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [fixtures, setFixtures] = useState([])
@@ -18,7 +21,7 @@ function Fixtures() {
     }
 
     fetch(
-      'https://api-football-v1.p.rapidapi.com/v3/fixtures?league=61&season=2021&next=10',
+      `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${fixture}&season=2022&next=10`,
       options
     )
       .then((response) => response.json())
@@ -49,7 +52,12 @@ function Fixtures() {
   }
 
   if (fixtures.length === 0) {
-    return <h1 className="Null">There are no live matches at the moment</h1>
+    return (
+      <>
+        <HomeLayout />{' '}
+        <h1 className="Null">There are no fixtures available at the moment</h1>
+      </>
+    )
   } else {
     return (
       <>
@@ -59,22 +67,28 @@ function Fixtures() {
           dataSource={fixtures}
           renderItem={(item) => (
             <Card className="card">
-              <div className="cardContent">
-                <p className="status">
-                  {item.fixture.status.long}
-                  <p className="date">
+              <Link
+                to={`./statistics?fixture=${item.fixture.id}`}
+                className="cardContent"
+              >
+                {}
+                <div>
+                  <p className="round">{item.league.round}</p>
+                  <p className="fixture-status">{item.fixture.status.long}</p>
+                  <span className="date">
                     {new Date(item.fixture.date).toLocaleString()}
-                  </p>
+                  </span>
 
-                  <span className="time">{item.fixture.status.elapsed}</span>
-                </p>
-                <div className="home-team">
-                  <img className="logo" src={item.teams.home.logo} />
+                  <span className="time">{item.fixture.status.elapsed}'</span>
+                </div>
+                <div className="teams">
+                  <div className="home-team">
+                    <img className="logo" src={item.teams.home.logo} />
+                    {}
+                    <span className="team-name">{item.teams.home.name}</span>
+                    <p className="scores">{item.goals.home}</p>
 
-                  <span className="team-name">{item.teams.home.name}</span>
-                  <p className="scores">{item.goals.home}</p>
-
-                  <div className="away-team">
+                    <div className="away-team"></div>
                     <img className="logo" src={item.teams.away.logo} />
                     <span className="team-name">{item.teams.away.name}</span>
                     <div className="away-score">
@@ -82,7 +96,7 @@ function Fixtures() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             </Card>
           )}
         />
