@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import '../../styles/Standings.css'
-import HomeLayout from '../components/header'
-import { Table } from 'antd'
+import '../../../styles/Standings.css'
+import '../../../styles/message.css'
+import HomeLayout from '../../components/header'
+import { Table, Spin } from 'antd'
 import { useParams } from 'react-router-dom'
 
 function Standings() {
-  const { standings } = useParams<{ standings: string }>()
-  console.log(standings)
+  const { id } = useParams<{ id: string }>()
+
   const [error, setError] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [log, setlog] = useState([])
@@ -21,7 +22,7 @@ function Standings() {
     }
 
     fetch(
-      `https://api-football-v1.p.rapidapi.com/v3/standings?season=2021&league=${standings}`,
+      `https://api-football-v1.p.rapidapi.com/v3/standings?season=2022&league=${id}`,
       options
     )
       .then((response) => response.json())
@@ -44,8 +45,8 @@ function Standings() {
   } else if (!isLoaded) {
     return (
       <div>
-        <HomeLayout leagueId={standings} />
-        Loading...
+        <HomeLayout leagueId={id} />
+        <Spin className="spin" size="large" tip="Loading..." />
       </div>
     )
   }
@@ -157,17 +158,25 @@ function Standings() {
   function onChange(filters, sorter, extra) {
     console.log('params', filters, sorter, extra)
   }
-
-  return (
-    <>
-      <HomeLayout leagueId={standings} />
-      <Table
-        columns={columns}
-        pagination={false}
-        dataSource={data}
-        onChange={onChange}
-      />
-    </>
-  )
+  if (log.length === 0) {
+    return (
+      <>
+        <HomeLayout leagueId={id} />{' '}
+        <h1 className="null">Log Not Available For This Competition</h1>
+      </>
+    )
+  } else {
+    return (
+      <>
+        <HomeLayout leagueId={id} />
+        <Table
+          columns={columns}
+          pagination={false}
+          dataSource={data}
+          onChange={onChange}
+        />
+      </>
+    )
+  }
 }
 export default Standings

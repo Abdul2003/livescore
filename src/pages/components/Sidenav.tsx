@@ -28,7 +28,7 @@ const Sidenav = (props) => {
           <Link
             to=""
             onClick={() => {
-              window.location.href = '/:id'
+              window.location.href = `/leagues/${props.id}/results`
             }}
           >
             Live Scores And Results
@@ -38,7 +38,7 @@ const Sidenav = (props) => {
           <Link
             to=""
             onClick={() => {
-              window.location.href = `/:fixture/${props.id}`
+              window.location.href = `/leagues/${props.id}/fixture`
             }}
           >
             Fixtures
@@ -49,7 +49,7 @@ const Sidenav = (props) => {
           <Link
             to=""
             onClick={() => {
-              window.location.href = `/:standings/${props.id}`
+              window.location.href = `/leagues/${props.id}/standings`
             }}
           >
             Standings
@@ -59,7 +59,7 @@ const Sidenav = (props) => {
           <Link
             to=""
             onClick={() => {
-              window.location.href = `/:scorers/${props.id}`
+              window.location.href = `/leagues/${props.id}/scorers`
             }}
           >
             Top-Scorers

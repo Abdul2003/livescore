@@ -1,6 +1,6 @@
 import React from 'react'
 import { Layout, Menu } from 'antd'
-import { Link, Route, BrowserRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Searchbox from './search'
 
 import Sidenav from './Sidenav'
@@ -10,7 +10,7 @@ import '../../styles/header.css'
 function HomeLayout(props) {
   const { Header } = Layout
   console.log(props.leagueId)
-  console.log(React.version)
+
   return (
     <>
       <Layout className="layout">
@@ -26,30 +26,58 @@ function HomeLayout(props) {
               {' '}
               <Sidenav id={props.leagueId} />
             </Menu.Item>
+
+            <Searchbox />
+
             <Menu.Item>
-              <Link to="/39"></Link>England
-            </Menu.Item>
-            <Menu.Item>
-              <Link to="/Spain/">Spain</Link>
-            </Menu.Item>
-            <Menu.Item>
-              <Link to="/Italy/">Italy</Link>
-            </Menu.Item>
-            <Menu.Item>
-              <Link to="/Germany/">Germany</Link>
+              <Link
+                to=""
+                onClick={() => {
+                  window.location.href = '/leagues/39/results'
+                }}
+              ></Link>
+              Premier League
             </Menu.Item>
             <Menu.Item>
               <Link
                 to=""
                 onClick={() => {
-                  window.location.href = '/61'
+                  window.location.href = '/leagues/140/results'
                 }}
               >
-                France
+                La Liga
               </Link>
             </Menu.Item>
-
-            <Searchbox />
+            <Menu.Item>
+              <Link
+                to=""
+                onClick={() => {
+                  window.location.href = '/leagues/135/results'
+                }}
+              >
+                Serie A
+              </Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link
+                to=""
+                onClick={() => {
+                  window.location.href = '/leagues/78/results'
+                }}
+              >
+                Bundesliga
+              </Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link
+                to=""
+                onClick={() => {
+                  window.location.href = '/leagues/61/results'
+                }}
+              >
+                Ligue 1
+              </Link>
+            </Menu.Item>
           </Menu>
         </Header>
       </Layout>

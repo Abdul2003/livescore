@@ -1,8 +1,9 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import HomeLayout from '../components/header'
-import { Table, Progress } from 'antd'
-import '../../styles/statistics.css'
+import HomeLayout from '../../components/header'
+import { Table, Spin } from 'antd'
+import '../../../styles/message.css'
+import '../../../styles/statistics.css'
 
 function Stats() {
   const [error, setError] = useState(null)
@@ -53,7 +54,7 @@ function Stats() {
     return (
       <div>
         <HomeLayout />
-        Loading...
+        <Spin className="spin" size="large" tip="Loading..." />
       </div>
     )
   }
@@ -104,7 +105,7 @@ function Stats() {
       <>
         {' '}
         <HomeLayout />
-        <h1 className="Null">Stats Not Available For This Match</h1>
+        <h1 className="null">Stats Not Available For This Match</h1>
       </>
     )
   } else {

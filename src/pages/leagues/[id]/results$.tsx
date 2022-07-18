@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { List, Card, Switch } from 'antd'
+import { List, Card, Switch, Spin } from 'antd'
 import { Link, useParams } from 'react-router-dom'
-import '../../styles/results.css'
-import HomeLayout from '../components/header'
-import Footer from '../components/footer'
+import '../../../styles/results.css'
+import '../../../styles/message.css'
+import HomeLayout from '../../components/header'
+import Footer from '../../components/footer'
 
 function Livescore() {
   const { id } = useParams<{ id: string }>()
@@ -40,13 +41,14 @@ function Livescore() {
         }
       )
   }, [])
-
+  console.log(results)
   if (error) {
     return <div>Error: {error.message}</div>
   } else if (!isLoaded) {
     return (
       <div>
-        <HomeLayout leagueId={id} /> Loading...
+        <HomeLayout leagueId={id} />
+        <Spin className="spin" size="large" tip="Loading..." />
       </div>
     )
   }
@@ -58,7 +60,7 @@ function Livescore() {
     return (
       <>
         <HomeLayout leagueId={id} />{' '}
-        <h1 className="Null">There are no live matches at the moment</h1>
+        <h1 className="null">There Are No Available Matches At The Moment</h1>
       </>
     )
   } else {
@@ -67,13 +69,16 @@ function Livescore() {
         ? results
         : results.filter(
             (item) =>
-              item.fixture.status.long != 'Match Finished' ||
-              'Match Postponed' ||
-              'Not Started'
+              item.fixture.status.long !== 'Match Postponed' &&
+              item.fixture.status.long !== 'Match Finished' &&
+              item.fixture.status.long !== 'Not Started' &&
+              item.fixture.status.long !== 'Time To Be Defined' &&
+              item.fixture.status.long !== 'Match Cancelled'
           )
 
     return (
-      <HomeLayout leagueId={id}>
+      <>
+        <HomeLayout leagueId={id} />
         <Switch
           onChange={onChange}
           checked={toggle}
@@ -128,7 +133,7 @@ function Livescore() {
         )}
 
         <Footer />
-      </HomeLayout>
+      </>
     )
   }
 }

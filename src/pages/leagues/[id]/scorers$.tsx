@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { List, Avatar } from 'antd'
-import '../../styles/scorers.css'
-import HomeLayout from '../components/header'
+import { List, Avatar, Spin } from 'antd'
+import '../../../styles/scorers.css'
+import '../../../styles/message.css'
+import HomeLayout from '../../components/header'
 
 function Scorers() {
-  const { scorers } = useParams<{ scorers: string }>()
+  const { id } = useParams<{ id: string }>()
   const [error, setError] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [players, setPlayers] = React.useState({} as any)
@@ -20,7 +21,7 @@ function Scorers() {
     }
 
     fetch(
-      `https://api-football-v1.p.rapidapi.com/v3/players/topscorers?league=${scorers}&season=2021`,
+      `https://api-football-v1.p.rapidapi.com/v3/players/topscorers?league=${id}&season=2022`,
       options
     )
       .then((response) => response.json())
@@ -43,8 +44,8 @@ function Scorers() {
   } else if (!isLoaded) {
     return (
       <div>
-        <HomeLayout leagueId={scorers} />
-        Loading...
+        <HomeLayout leagueId={id} />
+        <Spin className="spin" size="large" tip="Loading..." />
       </div>
     )
   }
@@ -67,24 +68,32 @@ function Scorers() {
     })
   }
   console.log(data)
-
-  return (
-    <>
-      <HomeLayout leagueId={scorers} />
-      <List
-        itemLayout="horizontal"
-        dataSource={data}
-        renderItem={(item) => (
-          <List.Item>
-            <List.Item.Meta
-              avatar={<Avatar src={item.photo} />}
-              title={item.title}
-              description={item.description}
-            />
-          </List.Item>
-        )}
-      />
-    </>
-  )
+  if (players.length === 0) {
+    return (
+      <>
+        <HomeLayout leagueId={id} />{' '}
+        <h1 className="null">Top-Scorers Not Available Yet</h1>
+      </>
+    )
+  } else {
+    return (
+      <>
+        <HomeLayout leagueId={id} />
+        <List
+          itemLayout="horizontal"
+          dataSource={data}
+          renderItem={(item) => (
+            <List.Item>
+              <List.Item.Meta
+                avatar={<Avatar src={item.photo} />}
+                title={item.title}
+                description={item.description}
+              />
+            </List.Item>
+          )}
+        />
+      </>
+    )
+  }
 }
 export default Scorers

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import 'antd/dist/antd.css'
 import { Link } from 'react-router-dom'
 import { AutoComplete } from 'antd'
+import '../../styles/search.css'
 
 const { Option } = AutoComplete
 
@@ -14,7 +15,7 @@ const App = () => {
       method: 'GET',
       headers: {
         'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com',
-        'X-RapidAPI-Key': '0e65c57432msh1dc84828888d254p1b8336jsn15121f8abb67',
+        'X-RapidAPI-Key': '09982046f2msh13fac0518fdb0a0p1a6df5jsn40a24cbd560c',
       },
     }
 
@@ -39,17 +40,22 @@ const App = () => {
       style={{
         width: 200,
       }}
-      placeholder="input here"
+      placeholder="Search League"
       filterOption={(inputValue, option) =>
-        option!.val.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+        option!.val.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1 ||
+        option!.country.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
       }
     >
       {result.map((item) => (
-        <Option key={item.league.id} val={item.league.name}>
+        <Option
+          key={item.league.id}
+          val={item.league.name}
+          country={item.country.name}
+        >
           <Link
             to=""
             onClick={() => {
-              window.location.href = `/${item.league.id}`
+              window.location.href = `/leagues/${item.league.id}/results`
             }}
           >
             <img
@@ -60,7 +66,10 @@ const App = () => {
               src={`https://media.api-sports.io/football/leagues/${item.league.id}.png`}
             />
 
-            <span style={{ color: 'black' }}>{item.league.name}</span>
+            <span style={{ color: 'black' }}>
+              {item.league.name}{' '}
+              <sub style={{ color: 'grey' }}>{item.country.name}</sub>
+            </span>
           </Link>
         </Option>
       ))}

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { List, Card } from 'antd'
-import '../../styles/fixture.css'
-import HomeLayout from '../components/header'
+import { List, Card, Spin } from 'antd'
+import '../../../styles/message.css'
+import '../../../styles/fixture.css'
+import HomeLayout from '../../components/header'
 import { Link } from 'react-router-dom'
 
 function Fixtures() {
-  const { fixture } = useParams<{ fixture: string }>()
+  const { id } = useParams<{ id: string }>()
   const [error, setError] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [fixtures, setFixtures] = useState([])
@@ -21,7 +22,7 @@ function Fixtures() {
     }
 
     fetch(
-      `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${fixture}&season=2022&next=10`,
+      `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${id}&season=2022&next=10`,
       options
     )
       .then((response) => response.json())
@@ -45,8 +46,8 @@ function Fixtures() {
   } else if (!isLoaded) {
     return (
       <div>
-        <HomeLayout />
-        Loading...
+        <HomeLayout leagueId={id} />
+        <Spin className="spin" size="large" tip="Loading..." />
       </div>
     )
   }
@@ -54,14 +55,14 @@ function Fixtures() {
   if (fixtures.length === 0) {
     return (
       <>
-        <HomeLayout />{' '}
-        <h1 className="Null">There are no fixtures available at the moment</h1>
+        <HomeLayout leagueId={id} />{' '}
+        <h1 className="null">There Are No Fixtures Available At The Moment</h1>
       </>
     )
   } else {
     return (
       <>
-        <HomeLayout />
+        <HomeLayout leagueId={id} />
         <List
           itemLayout="vertical"
           dataSource={fixtures}
