@@ -24,7 +24,7 @@ function Livescore() {
     }
 
     fetch(
-      `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${id}&season=2022&last=12`,
+      `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${id}&season=2023&last=12`,
       options
     )
       .then((response) => response.json())
@@ -92,7 +92,7 @@ function Livescore() {
           displayedFixtures.map((item) => (
             <Card className="card">
               <Link
-                to={`/:id/statistics?fixture=${item.fixture.id}`}
+                to={`/leagues/:id/statistics?fixture=${item.fixture.id}`}
                 className="cardContent"
               >
                 <span className="round">{item.league.round}</span>

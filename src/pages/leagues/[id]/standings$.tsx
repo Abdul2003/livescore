@@ -22,7 +22,7 @@ function Standings() {
     }
 
     fetch(
-      `https://api-football-v1.p.rapidapi.com/v3/standings?season=2022&league=${id}`,
+      `https://api-football-v1.p.rapidapi.com/v3/standings?season=2023&league=${id}`,
       options
     )
       .then((response) => response.json())

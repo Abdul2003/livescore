@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Drawer, Button } from 'antd'
+import { Drawer } from 'antd'
+import { MenuOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import '../../styles/Sidenav.css'
 const Sidenav = (props) => {
@@ -15,9 +16,7 @@ const Sidenav = (props) => {
 
   return (
     <>
-      <Button className="Button" type="primary" onClick={showDrawer}>
-        Open
-      </Button>
+      <MenuOutlined onClick={showDrawer} />
       <Drawer
         title="Basic Drawer"
         placement="left"

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout, Menu } from 'antd'
+import { Layout, Menu, Affix } from 'antd'
 import { Link } from 'react-router-dom'
 import Searchbox from './search'
 

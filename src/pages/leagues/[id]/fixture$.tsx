@@ -22,7 +22,7 @@ function Fixtures() {
     }
 
     fetch(
-      `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${id}&season=2022&next=10`,
+      `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${id}&season=2023&next=10`,
       options
     )
       .then((response) => response.json())

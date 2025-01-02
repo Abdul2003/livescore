@@ -21,7 +21,7 @@ function Scorers() {
     }
 
     fetch(
-      `https://api-football-v1.p.rapidapi.com/v3/players/topscorers?league=${id}&season=2022`,
+      `https://api-football-v1.p.rapidapi.com/v3/players/topscorers?league=${id}&season=2023`,
       options
     )
       .then((response) => response.json())
@@ -60,7 +60,11 @@ function Scorers() {
         <span>
           {players[i].statistics[0].team.name}
           <span className="goals">
-            {players[i].statistics[0].goals.total} Goals
+            {players[i].statistics[0].goals.total < 2 ? (
+              <>{players[i].statistics[0].goals.total} Goal</>
+            ) : (
+              <>{players[i].statistics[0].goals.total} Goals</>
+            )}
           </span>
         </span>
       ),
